@@ -2,6 +2,12 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
+<link rel="preload" as="image" href="background2.png" media="(min-width: 761px)">
+<link rel="preload" as="image" href="background1.png" media="(max-width: 760px)">
+<script>
+(function(){var d=document.documentElement,done=false;function ok(){if(!done){done=true;d.classList.add('bg-ready')}}
+var i=new Image();i.onload=function(){(i.decode?i.decode():Promise.resolve()).then(ok,ok)};i.onerror=ok;i.src=matchMedia('(max-width: 760px)').matches?'background1.png':'background2.png';setTimeout(ok,5000)})();
+</script>
 <title>Vũ Thị Thu Phương</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Dancing+Script:wght@600;700&family=Pacifico&family=Quicksand:wght@500;600;700&display=swap">
@@ -40,12 +46,15 @@
 * { box-sizing: border-box; }
 body {
   margin: 0;
-  background-color: var(--bg); background-image: linear-gradient(var(--shade), var(--shade)), url("background2.png"); background-position: center top; background-size: cover; background-repeat: no-repeat; background-attachment: fixed; color: var(--fg); font-family: var(--font-body); font-size: 16px; font-weight: 600;
+  background-color: #3b2330; color: var(--fg); font-family: var(--font-body); font-size: 16px; font-weight: 600;
   padding-block: 28px 56px;
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
   min-height: 100%;
 }
+/* nền ảnh nằm ở lớp riêng, chỉ hiện (mờ dần) khi ảnh đã tải và giải mã xong để không bị load từng mảng */
+body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; background: linear-gradient(var(--shade), var(--shade)), url("background2.png") center top / cover no-repeat; opacity: 0; transition: opacity .9s ease; }
+.bg-ready body::before { opacity: 1; }
 .page { position: relative; max-width: 1000px; margin: 0 auto; overflow-x: clip; }
 .page::before {
   content: ""; position: absolute; inset: -40px -40px auto -40px; height: 520px; z-index: 0; pointer-events: none;
@@ -348,10 +357,11 @@ body {
 
 /* ===== Điện thoại: giữ NGUYÊN bố cục như máy tính (3 cột hero, 2 cột nội dung), chỉ thu nhỏ cho cân ===== */
 @media (max-width: 760px) {
-  body { background-image: linear-gradient(var(--shade), var(--shade)), url("background1.png"); }
+  body::before { background-image: linear-gradient(var(--shade), var(--shade)), url("background1.png"); }
   body { font-size: 13px; padding-block: 16px 36px; padding-left: max(10px, env(safe-area-inset-left, 0px)); padding-right: max(10px, env(safe-area-inset-right, 0px)); }
   .wrap { gap: 46px; }
   .float { opacity: .4; }
+  .float.w { font-size: 16px; }
   .f1 { font-size: 15px; } .f2 { font-size: 20px; } .f3 { font-size: 17px; } .f4 { font-size: 14px; } .f5 { font-size: 20px; } .f6 { font-size: 16px; }
 
   .name { padding-top: 44px; }
@@ -365,13 +375,13 @@ body {
   .ln { font-size: .7rem; padding: 4px 1px 5px; min-height: 1.9em; line-height: 1.3; }
   .hero .ln { font-size: .95rem; }
   .ln:hover, .ln:focus { padding-left: 5px; }
-  .avatar-wrap { width: clamp(144px, 40vw, 225px); height: clamp(144px, 40vw, 225px); }
+  .avatar-wrap { width: clamp(180px, 50vw, 281px); height: clamp(180px, 50vw, 281px); }
   .ring { border-width: 3px; }
-  .ring.r2 { inset: 9px; border-width: 2px; }
+  .ring.r2 { inset: 11px; border-width: 2px; }
   .avatar { width: 80%; height: 80%; border-width: 3px; box-shadow: 0 0 0 3px #b98cff, 0 0 11px 5px rgba(185, 140, 255, .85), 0 0 24px 9px rgba(150, 95, 255, .5), 0 6px 18px var(--glow); }
   .avatar .hint { font-size: .8rem; inset: auto 0 12px; }
-  .sparkle { font-size: 19px; }
-  .sp1 { top: 3px; right: 9px; } .sp2 { bottom: 15px; left: 0; font-size: 15px; }
+  .sparkle { font-size: 24px; }
+  .sp1 { top: 3px; right: 9px; } .sp2 { bottom: 19px; left: 0; font-size: 19px; }
 
   /* 2 cột nội dung */
   .cols { --cg: 16px; gap: 0 var(--cg); max-width: none; }
